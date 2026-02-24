@@ -13,6 +13,8 @@ addResetListener();
 
 function startGame () {
     let size = prompt("Введите размер поля")
+    playerRound = 0;
+    gameStatus = true;
     renderGrid(size,size);
 }
 
@@ -99,13 +101,11 @@ function renderGrid (size) {
 }
 
 function cellClickHandler (row, col) {
-    // Пиши код ту
-  // т
     console.log(`Clicked on cell: ${row}, ${col}`);
     if (!gameStatus){
       return;
     }
-    curPlayer = playerRound % 2 ? CROSS : ZERO;
+    const curPlayer = playerRound % 2 ? CROSS : ZERO;
     console.log(playingBoard[row][col]);
     if (playingBoard[row][col] === 0){
       renderSymbolInCell(curPlayer, row, col)
@@ -114,13 +114,61 @@ function cellClickHandler (row, col) {
       gameStatus = !checkWinner(curPlayer, row, col);
       if (!gameStatus){
           alert(`Победил ${curPlayer}`)
+          return;
       }
+      if (isBoardFull()){
+          gameStatus = false;
+          alert('Ничья');
+          return;
+      }
+      aiMove();
     }
 
 
-        /* Пользоваться методом для размещения символа в клетке так:
-        renderSymbolInCell(ZERO, row, col);
-     */
+}
+
+function aiMove () {
+    if (!gameStatus){
+        return;
+    }
+    const emptyCells = [];
+    for (let i = 0; i < playingBoard.length; i++) {
+        for (let j = 0; j < playingBoard.length; j++) {
+            if (playingBoard[i][j] === 0){
+                emptyCells.push([i, j]);
+            }
+        }
+    }
+    if (emptyCells.length === 0){
+        gameStatus = false;
+        alert('Ничья');
+        return;
+    }
+    const [row, col] = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    const aiPlayer = playerRound % 2 ? CROSS : ZERO;
+    renderSymbolInCell(aiPlayer, row, col)
+    playingBoard[row][col] = aiPlayer;
+    playerRound++;
+    gameStatus = !checkWinner(aiPlayer, row, col);
+    if (!gameStatus){
+        alert(`Победил ${aiPlayer}`)
+        return;
+    }
+    if (isBoardFull()){
+        gameStatus = false;
+        alert('Ничья');
+    }
+}
+
+function isBoardFull () {
+    for (let i = 0; i < playingBoard.length; i++) {
+        for (let j = 0; j < playingBoard.length; j++) {
+            if (playingBoard[i][j] === 0){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
