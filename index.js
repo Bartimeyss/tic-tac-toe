@@ -73,9 +73,9 @@ function addResetListener () {
 
 function resetClickHandler () {
     console.log('reset!');
+    startGame();
 }
 
-function 
 
 function initGame (rows, cols) {
   playingBoard = [];
