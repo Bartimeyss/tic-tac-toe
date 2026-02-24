@@ -32,8 +32,12 @@ function cellClickHandler (row, col) {
     // Пиши код тут
     console.log(`Clicked on cell: ${row}, ${col}`);
     curPlayer = playerRound % 2 ? CROSS : ZERO;
+    if (playingBoard[row, col] != EMPTY){
+      break;
+    }
     renderSymbolInCell(curPlayer, row, col)
     playingBoard[row, col] = curPlayer;
+    playerRound++;
     
         /* Пользоваться методом для размещения символа в клетке так:
         renderSymbolInCell(ZERO, row, col);
@@ -65,7 +69,7 @@ function initGame (rows, cols) {
   for (let i = 0; i < rows; i++) {
     playingBoard[i] = [];
     for (let j = 0; j < cols; j++) {
-      playingBoard[i][j] = 0;
+      playingBoard[i][j] = EMPTY;
     }
   }
 
