@@ -10,15 +10,17 @@ startGame();
 addResetListener();
 
 function startGame () {
-    renderGrid(3);
+    let col = prompt("Введите количество столбцов")
+    let row = prompt("Введите количество строк")
+    renderGrid(col, row);
 }
 
-function renderGrid (dimension) {
+function renderGrid (colq,rowq) {
     container.innerHTML = '';
     initGame(3, 3);
-    for (let i = 0; i < dimension; i++) {
+    for (let i = 0; i < rowq; i++) {
         const row = document.createElement('tr');
-        for (let j = 0; j < dimension; j++) {
+        for (let j = 0; j < colq; j++) {
             const cell = document.createElement('td');
             cell.textContent = EMPTY;
             cell.addEventListener('click', () => cellClickHandler(i, j));
@@ -33,12 +35,12 @@ function cellClickHandler (row, col) {
     console.log(`Clicked on cell: ${row}, ${col}`);
     curPlayer = playerRound % 2 ? CROSS : ZERO;
     if (playingBoard[row, col] != EMPTY){
-      break;
+      return;
     }
     renderSymbolInCell(curPlayer, row, col)
     playingBoard[row, col] = curPlayer;
     playerRound++;
-    
+
         /* Пользоваться методом для размещения символа в клетке так:
         renderSymbolInCell(ZERO, row, col);
      */
