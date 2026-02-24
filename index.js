@@ -90,7 +90,7 @@ function renderGrid (size) {
         for (let j = 0; j < size; j++) {
             const cell = document.createElement('td');
             cell.textContent = EMPTY;
-            findCell(i, j).style.color = '#FFF';
+            cell.style.color = '#FFF';
             cell.addEventListener('click', () => cellClickHandler(i, j));
             row.appendChild(cell);
         }
@@ -115,7 +115,6 @@ function cellClickHandler (row, col) {
       if (!gameStatus){
           alert(`Победил ${curPlayer}`)
       }
-      findCell(row, col).style.color = '#FF0000';
     }
 
 
