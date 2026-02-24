@@ -28,6 +28,9 @@ function checkWinner(player) {
             }
         }
         if (win) {
+            for (let j = 0; j < size; j++) {
+                findCell(i, j).style.color = '#FF0000';
+            }
             return true;
         }
     }
@@ -41,6 +44,9 @@ function checkWinner(player) {
             }
         }
         if (win) {
+            for (let i = 0; i < size; i++) {
+                findCell(i, j).style.color = '#FF0000';
+            }
             return true;
         }
     }
@@ -53,6 +59,9 @@ function checkWinner(player) {
         }
     }
     if (win) {
+        for (let i = 0; i < size; i++) {
+            findCell(i, i).style.color = '#FF0000';
+        }
         return true;
     }
 
@@ -63,7 +72,12 @@ function checkWinner(player) {
             break;
         }
     }
-    if (win) return true;
+    if (win) {
+        for (let i = 0; i < size; i++) {
+            findCell(i, size - 1 - i).style.color = '#FF0000';
+        }
+        return true;
+    }
 
     return false;
 }
@@ -76,6 +90,7 @@ function renderGrid (size) {
         for (let j = 0; j < size; j++) {
             const cell = document.createElement('td');
             cell.textContent = EMPTY;
+            findCell(i, j).style.color = '#FFF';
             cell.addEventListener('click', () => cellClickHandler(i, j));
             row.appendChild(cell);
         }
@@ -96,7 +111,11 @@ function cellClickHandler (row, col) {
       renderSymbolInCell(curPlayer, row, col)
       playingBoard[row][col] = curPlayer;
       playerRound++;
-
+      gameStatus = !checkWinner(curPlayer, row, col);
+      if (!gameStatus){
+          alert(`Победил ${curPlayer}`)
+      }
+      findCell(row, col).style.color = '#FF0000';
     }
 
 
@@ -134,6 +153,7 @@ function initGame (rows, cols) {
     playingBoard[i] = [];
     for (let j = 0; j < cols; j++) {
       playingBoard[i][j] = 0;
+
     }
   }
 
