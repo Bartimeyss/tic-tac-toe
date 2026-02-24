@@ -12,17 +12,68 @@ startGame();
 addResetListener();
 
 function startGame () {
-    let col = prompt("Введите количество столбцов")
-    let row = prompt("Введите количество строк")
-    renderGrid(col, row);
+    let size = prompt("Введите размер поля")
+    renderGrid(size,size);
 }
 
-function renderGrid (colq,rowq) {
+function checkWinner(player) {
+    const size = playingBoard.length;
+
+    for (let i = 0; i < size; i++) {
+        let win = true;
+        for (let j = 0; j < size; j++) {
+            if (playingBoard[i][j] !== player) {
+                win = false;
+                break;
+            }
+        }
+        if (win) {
+            return true;
+        }
+    }
+
+    for (let j = 0; j < size; j++) {
+        let win = true;
+        for (let i = 0; i < size; i++) {
+            if (playingBoard[i][j] !== player) {
+                win = false;
+                break;
+            }
+        }
+        if (win) {
+            return true;
+        }
+    }
+
+    let win = true;
+    for (let i = 0; i < size; i++) {
+        if (playingBoard[i][i] !== player) {
+            win = false;
+            break;
+        }
+    }
+    if (win) {
+        return true;
+    }
+
+    win = true;
+    for (let i = 0; i < size; i++) {
+        if (playingBoard[i][size - 1 - i] !== player) {
+            win = false;
+            break;
+        }
+    }
+    if (win) return true;
+
+    return false;
+}
+
+function renderGrid (size) {
     container.innerHTML = '';
-    initGame(rowq, colq);
-    for (let i = 0; i < rowq; i++) {
+    initGame(size, size);
+    for (let i = 0; i < size; i++) {
         const row = document.createElement('tr');
-        for (let j = 0; j < colq; j++) {
+        for (let j = 0; j < size; j++) {
             const cell = document.createElement('td');
             cell.textContent = EMPTY;
             cell.addEventListener('click', () => cellClickHandler(i, j));
@@ -45,9 +96,9 @@ function cellClickHandler (row, col) {
       renderSymbolInCell(curPlayer, row, col)
       playingBoard[row][col] = curPlayer;
       playerRound++;
-      
+
     }
-    
+
 
         /* Пользоваться методом для размещения символа в клетке так:
         renderSymbolInCell(ZERO, row, col);
