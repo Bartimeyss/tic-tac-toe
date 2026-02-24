@@ -6,6 +6,8 @@ const container = document.getElementById('fieldWrapper');
 let playingBoard = [];
 let playerRound = 0;
 
+let gameStatus = true
+
 startGame();
 addResetListener();
 
@@ -31,16 +33,21 @@ function renderGrid (colq,rowq) {
 }
 
 function cellClickHandler (row, col) {
-    // Пиши код тут
+    // Пиши код ту
+  // т
     console.log(`Clicked on cell: ${row}, ${col}`);
+    if (!gameStatus){
+      return;
+    }
     curPlayer = playerRound % 2 ? CROSS : ZERO;
     console.log(playingBoard[row][col]);
     if (playingBoard[row][col] === 0){
       renderSymbolInCell(curPlayer, row, col)
       playingBoard[row][col] = curPlayer;
       playerRound++;
-
+      
     }
+    
 
         /* Пользоваться методом для размещения символа в клетке так:
         renderSymbolInCell(ZERO, row, col);
@@ -68,7 +75,10 @@ function resetClickHandler () {
     console.log('reset!');
 }
 
+function 
+
 function initGame (rows, cols) {
+  playingBoard = [];
   for (let i = 0; i < rows; i++) {
     playingBoard[i] = [];
     for (let j = 0; j < cols; j++) {
